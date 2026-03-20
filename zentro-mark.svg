@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Zentro mark">
+  <title>Zentro Monogram</title>
+  <rect x="4.75" y="4.75" width="54.5" height="54.5" stroke="currentColor" stroke-width="1.5"/>
+  <path d="M12 14H52L46 21H6L12 14Z" fill="currentColor"/>
+  <path d="M44 21H53L20 47H11L44 21Z" fill="currentColor"/>
+  <path d="M20 40H58L52 47H14L20 40Z" fill="currentColor"/>
+  <circle cx="51" cy="51" r="3.5" fill="#4d626c"/>
+</svg>

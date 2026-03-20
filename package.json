@@ -1,0 +1,26 @@
+{
+  "name": "zentro-labs-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Premium one-page website for Zentro Labs.",
+  "scripts": {
+    "dev": "serve . -l 5500",
+    "start": "serve . -l 5500",
+    "preview": "serve . -l 4173"
+  },
+  "keywords": [
+    "agency",
+    "portfolio",
+    "website",
+    "static-site",
+    "zentro-labs"
+  ],
+  "author": "Zentro Labs",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "serve": "^14.2.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
