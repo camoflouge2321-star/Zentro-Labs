@@ -340,6 +340,40 @@ function initContactVideo() {
         { once: true, passive: true }
     );
 }
+
+function initPortfolioVideo() {
+    const video = document.querySelector("[data-portfolio-video]");
+    if (!video) {
+        return;
+    }
+
+    if (prefersReducedMotion()) {
+        video.pause();
+        video.removeAttribute("autoplay");
+        video.setAttribute("controls", "");
+        return;
+    }
+
+    const attemptPlay = () => {
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {
+                video.setAttribute("controls", "");
+            });
+        }
+    };
+
+    if (video.readyState >= 2) {
+        attemptPlay();
+    } else {
+        video.addEventListener("canplay", attemptPlay, { once: true });
+    }
+
+    video.addEventListener("error", () => {
+        video.setAttribute("controls", "");
+    });
+}
+
 function initMetricCounters() {
     const counters = Array.from(document.querySelectorAll("[data-counter]"));
     if (!counters.length) {
@@ -569,6 +603,7 @@ function init() {
     initParallax();
     initVideoFallback();
     initContactVideo();
+    initPortfolioVideo();
     initMetricCounters();
     initFaqAccordion();
     initMenuToggle();
