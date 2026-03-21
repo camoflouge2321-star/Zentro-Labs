@@ -273,74 +273,6 @@ function initVideoFallback() {
     );
 }
 
-
-function initContactVideo() {
-    const video = document.querySelector("[data-contact-video]");
-    if (!video) {
-        return;
-    }
-
-    const fallbackSrc = video.getAttribute("data-contact-fallback");
-    let fallbackApplied = false;
-
-    const applyFallback = () => {
-        if (fallbackApplied || !fallbackSrc) {
-            return;
-        }
-
-        fallbackApplied = true;
-        video.pause();
-        video.setAttribute("controls", "");
-        video.innerHTML = `<source src="${fallbackSrc}" type="video/mp4" />`;
-        video.load();
-    };
-
-    if (prefersReducedMotion()) {
-        video.pause();
-        video.removeAttribute("autoplay");
-        video.setAttribute("controls", "");
-        return;
-    }
-
-    const attemptPlay = () => {
-        const playPromise = video.play();
-        if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(() => {
-                video.setAttribute("controls", "");
-            });
-        }
-    };
-
-    if (video.readyState >= 2) {
-        attemptPlay();
-    } else {
-        video.addEventListener("canplay", attemptPlay, { once: true });
-    }
-
-    video.addEventListener("error", () => {
-        applyFallback();
-        const playPromise = video.play();
-        if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(() => {
-                video.setAttribute("controls", "");
-            });
-        }
-    });
-
-    window.addEventListener(
-        "pointerdown",
-        () => {
-            const playPromise = video.play();
-            if (playPromise && typeof playPromise.catch === "function") {
-                playPromise.catch(() => {
-                    video.setAttribute("controls", "");
-                });
-            }
-        },
-        { once: true, passive: true }
-    );
-}
-
 function initPortfolioVideo() {
     const video = document.querySelector("[data-portfolio-video]");
     if (!video) {
@@ -602,7 +534,6 @@ function init() {
     initHeaderState();
     initParallax();
     initVideoFallback();
-    initContactVideo();
     initPortfolioVideo();
     initMetricCounters();
     initFaqAccordion();

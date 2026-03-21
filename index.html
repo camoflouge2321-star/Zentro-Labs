@@ -302,7 +302,7 @@
             </div>
         </section>
 
-                        <section class="section surface-container" id="contact">
+        <section class="section surface-container" id="contact">
             <div class="container contact-shell">
                 <div class="contact-copy" data-reveal>
                     <p class="eyebrow">Collaboration</p>
@@ -317,53 +317,43 @@
                     </p>
                 </div>
 
-                <div class="contact-media-form">
-                    <div class="contact-video-container" data-reveal>
-                        <video class="contact-video" data-contact-video data-contact-fallback="portfolio-2video.mp4" autoplay="" loop="" muted="" playsinline="" controls="" preload="metadata" poster="screen.png">
-                            <source src="portfolio-2video.mp4" type="video/mp4" />
-                            <source src="https://res.cloudinary.com/dvjffmzh4/video/upload/v1774088468/Portfolio_2video_oqxq6i.mp4" type="video/mp4" />
-                            <source src="Portfolio%20video%20(1).mp4" type="video/mp4" />
-                        </video>
+                <form class="contact-form" data-contact-form data-reveal>
+                    <div class="field-grid">
+                        <label class="field">
+                            <span>Full Name</span>
+                            <input class="field-input" name="name" placeholder="John Doe" required="" type="text" />
+                        </label>
+                        <label class="field">
+                            <span>Email Address</span>
+                            <input class="field-input" name="email" placeholder="john@example.com" required=""
+                                type="email" />
+                        </label>
                     </div>
 
-                    <form class="contact-form" data-contact-form data-reveal>
-                        <div class="field-grid">
-                            <label class="field">
-                                <span>Full Name</span>
-                                <input class="field-input" name="name" placeholder="John Doe" required="" type="text" />
-                            </label>
-                            <label class="field">
-                                <span>Email Address</span>
-                                <input class="field-input" name="email" placeholder="john@example.com" required=""
-                                    type="email" />
-                            </label>
-                        </div>
+                    <label class="field">
+                        <span>Project Type</span>
+                        <select class="field-input" name="projectType">
+                            <option value="Brand Site">Brand Site</option>
+                            <option value="Product Experience">Product Experience</option>
+                            <option value="Web App Build">Web App Build</option>
+                            <option value="AI Integration">AI Integration</option>
+                            <option value="Custom Engagement">Custom Engagement</option>
+                        </select>
+                    </label>
 
-                        <label class="field">
-                            <span>Project Type</span>
-                            <select class="field-input" name="projectType">
-                                <option value="Brand Site">Brand Site</option>
-                                <option value="Product Experience">Product Experience</option>
-                                <option value="Web App Build">Web App Build</option>
-                                <option value="AI Integration">AI Integration</option>
-                                <option value="Custom Engagement">Custom Engagement</option>
-                            </select>
-                        </label>
+                    <label class="field">
+                        <span>Message</span>
+                        <textarea class="field-textarea" name="message" placeholder="Describe your goals, timeline, and current challenges."
+                            required=""></textarea>
+                    </label>
 
-                        <label class="field">
-                            <span>Message</span>
-                            <textarea class="field-textarea" name="message" placeholder="Describe your goals, timeline, and current challenges."
-                                required=""></textarea>
-                        </label>
-
-                        <div class="form-actions">
-                            <button class="btn btn-primary" type="submit">Send Message</button>
-                            <button class="btn btn-secondary" data-whatsapp-cta type="button">Open WhatsApp</button>
-                        </div>
-                        <p class="form-status" id="form-status" aria-live="polite"></p>
-                        <p class="form-note" data-whatsapp-note></p>
-                    </form>
-                </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit">Send Message</button>
+                        <button class="btn btn-secondary" data-whatsapp-cta type="button">Open WhatsApp</button>
+                    </div>
+                    <p class="form-status" id="form-status" aria-live="polite"></p>
+                    <p class="form-note" data-whatsapp-note></p>
+                </form>
             </div>
         </section>
 
