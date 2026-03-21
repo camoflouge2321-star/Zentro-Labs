@@ -432,6 +432,13 @@ html.video-fallback .hero-video {
     transform: translateX(130%);
 }
 
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    transform: none;
+    box-shadow: none;
+}
+
 .btn-primary {
     background: var(--accent);
     color: #f4faff;
@@ -1076,17 +1083,38 @@ select:focus-visible {
 }
 
 /* Portfolio Video Styles */
+.portfolio-video-stack {
+    display: grid;
+    gap: clamp(1.25rem, 2.2vw, 2rem);
+}
+
+.portfolio-video-card {
+    background: linear-gradient(145deg, #12191d, #1a2429);
+    border: 1px solid rgba(198, 214, 220, 0.16);
+    border-radius: 1.25rem;
+    padding: clamp(1rem, 2.2vw, 1.5rem);
+    box-shadow: 0 18px 44px rgba(17, 24, 27, 0.34);
+}
+
+.portfolio-video-heading {
+    font-family: "Newsreader", serif;
+    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+    line-height: 1;
+    color: #eef4f7;
+    margin-bottom: 0.9rem;
+}
+
 .portfolio-video-container {
     position: relative;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-radius: 1.25rem;
+    max-width: none;
+    margin: 0;
+    border-radius: 1rem;
     overflow: hidden;
     aspect-ratio: 16 / 9;
-    background: var(--surface-container);
-    box-shadow: var(--hero-shadow);
-    border: 1px solid var(--ghost-border);
+    background: #0b1114;
+    box-shadow: 0 12px 28px rgba(11, 17, 20, 0.32);
+    border: 1px solid rgba(198, 214, 220, 0.14);
 }
 
 .portfolio-video {
@@ -1131,6 +1159,15 @@ select:focus-visible {
 
     .brand-title {
         font-size: 1.02rem;
+    }
+
+    .portfolio-video-card {
+        border-radius: 1rem;
+        padding: 0.8rem;
+    }
+
+    .portfolio-video-heading {
+        margin-bottom: 0.75rem;
     }
 }
 

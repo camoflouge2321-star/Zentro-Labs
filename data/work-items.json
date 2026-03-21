@@ -1,0 +1,42 @@
+[
+  {
+    "index": "01",
+    "title": "Monoform Collective",
+    "category": "E-Commerce / Identity",
+    "description": "A conversion-focused commerce experience engineered to feel gallery-grade while preserving fast checkout flow.",
+    "altText": "Abstract editorial composition in deep slate and blue tones.",
+    "toneA": "#3f5e63",
+    "toneB": "#6f888f",
+    "layout": "feature"
+  },
+  {
+    "index": "02",
+    "title": "Nexus Sync",
+    "category": "SaaS / Product Narrative",
+    "description": "A modular marketing platform balancing investor-level clarity with onboarding simplicity for enterprise buyers.",
+    "altText": "Soft beige editorial panel with minimal geometric accents.",
+    "toneA": "#d6c4ad",
+    "toneB": "#efe6db",
+    "layout": "tall"
+  },
+  {
+    "index": "03",
+    "title": "Haus & Bauhaus",
+    "category": "Real Estate / Experience",
+    "description": "An architectural showcase site where immersive storytelling and lead qualification coexist without friction.",
+    "altText": "Muted ivory gradient with layered circular overlays.",
+    "toneA": "#ddd6c6",
+    "toneB": "#f4eee2",
+    "layout": "offset"
+  },
+  {
+    "index": "04",
+    "title": "Orbit Ledger",
+    "category": "FinTech / Web App",
+    "description": "A premium product landing ecosystem that increased demo intent and reduced drop-off in core decision paths.",
+    "altText": "Editorial steel-blue gradient with atmospheric highlights.",
+    "toneA": "#3b4d57",
+    "toneB": "#8ea3ad",
+    "layout": "balanced"
+  }
+]

@@ -1,13 +1,14 @@
-const SITE_CONFIG = Object.freeze({
+const DEFAULT_SITE_CONFIG = Object.freeze({
     brandName: "Zentro Labs",
     contactEmail: "hello@zentrolabs.com",
     siteUrl: "https://zentrolabs.com/",
+    whatsappUrl: "",
     whatsappPhone: "",
     whatsappPrefillText: "Hi Zentro Labs, I want to start a premium project.",
     copyrightYear: 2026
 });
 
-const WORK_ITEMS = Object.freeze([
+const DEFAULT_WORK_ITEMS = Object.freeze([
     {
         index: "01",
         title: "Monoform Collective",
@@ -50,6 +51,9 @@ const WORK_ITEMS = Object.freeze([
     }
 ]);
 
+let runtimeSiteConfig = { ...DEFAULT_SITE_CONFIG };
+let runtimeWorkItems = [...DEFAULT_WORK_ITEMS];
+
 function escapeHtml(value) {
     return String(value).replace(/[&<>"']/g, (char) => {
         switch (char) {
@@ -73,45 +77,107 @@ function prefersReducedMotion() {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
-function getWhatsAppUrl() {
-    const sanitizedPhone = String(SITE_CONFIG.whatsappPhone || "").replace(/\D/g, "");
-    const message = encodeURIComponent(SITE_CONFIG.whatsappPrefillText);
+function getSanitizedWhatsAppPhone() {
+    const sanitizedPhone = String(runtimeSiteConfig.whatsappPhone || "").replace(/\D/g, "");
+    return sanitizedPhone.length >= 8 ? sanitizedPhone : "";
+}
 
-    if (sanitizedPhone.length >= 8) {
-        return `https://wa.me/${sanitizedPhone}?text=${message}`;
+function getConfiguredWhatsAppUrl() {
+    const configuredUrl = String(runtimeSiteConfig.whatsappUrl || "").trim();
+    if (!configuredUrl) {
+        return "";
     }
 
-    return `https://wa.me/?text=${message}`;
+    try {
+        const parsed = new URL(configuredUrl);
+        if (parsed.protocol === "http:" || parsed.protocol === "https:") {
+            return parsed.toString();
+        }
+    } catch (error) {
+        return "";
+    }
+
+    return "";
+}
+
+function hasWhatsAppTarget() {
+    return Boolean(getConfiguredWhatsAppUrl() || getSanitizedWhatsAppPhone());
+}
+
+function getWhatsAppUrl(messageText) {
+    const message = encodeURIComponent(String(messageText || runtimeSiteConfig.whatsappPrefillText || "").trim());
+    const configuredUrl = getConfiguredWhatsAppUrl();
+    if (configuredUrl) {
+        const parsed = new URL(configuredUrl);
+        parsed.searchParams.set("text", decodeURIComponent(message));
+        return parsed.toString();
+    }
+
+    const sanitizedPhone = getSanitizedWhatsAppPhone();
+    if (sanitizedPhone) {
+        return `https://api.whatsapp.com/send?phone=${sanitizedPhone}&text=${message}`;
+    }
+
+    return "";
+}
+
+function buildWhatsAppBriefFromForm(formElement) {
+    const data = new FormData(formElement);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const projectType = String(data.get("projectType") || "General Inquiry").trim();
+    const message = String(data.get("message") || "").trim();
+
+    const lines = [
+        `Hi ${runtimeSiteConfig.brandName}, I want to discuss a project.`,
+        "",
+        `Name: ${name || "N/A"}`,
+        `Email: ${email || "N/A"}`,
+        `Project Type: ${projectType || "N/A"}`,
+        "",
+        "Message:",
+        message || "N/A"
+    ];
+
+    return lines.join("\n");
 }
 
 function applySiteConfig() {
     document.querySelectorAll("[data-brand]").forEach((node) => {
-        node.textContent = SITE_CONFIG.brandName;
+        node.textContent = runtimeSiteConfig.brandName;
     });
 
     document.querySelectorAll("[data-year]").forEach((node) => {
-        node.textContent = String(SITE_CONFIG.copyrightYear);
+        node.textContent = String(runtimeSiteConfig.copyrightYear);
     });
 
     document.querySelectorAll("[data-email-link]").forEach((link) => {
-        link.setAttribute("href", `mailto:${SITE_CONFIG.contactEmail}`);
+        link.setAttribute("href", `mailto:${runtimeSiteConfig.contactEmail}`);
         if (!link.dataset.keepText) {
-            link.textContent = SITE_CONFIG.contactEmail;
+            link.textContent = runtimeSiteConfig.contactEmail;
+        }
+    });
+
+    const whatsappReady = hasWhatsAppTarget();
+    document.querySelectorAll("[data-whatsapp-cta]").forEach((button) => {
+        if (!(button instanceof HTMLButtonElement)) {
+            return;
+        }
+        button.disabled = !whatsappReady;
+        button.setAttribute("aria-disabled", String(!whatsappReady));
+        if (!whatsappReady) {
+            button.title = "WhatsApp is not configured yet.";
+        } else {
+            button.removeAttribute("title");
         }
     });
 
     const whatsappNote = document.querySelector("[data-whatsapp-note]");
-    if (!whatsappNote) {
-        return;
+    if (whatsappNote) {
+        whatsappNote.textContent = whatsappReady
+            ? ""
+            : "Add whatsappPhone (or whatsappUrl) in data/site-config.json to enable direct chat.";
     }
-
-    const sanitizedPhone = String(SITE_CONFIG.whatsappPhone || "").replace(/\D/g, "");
-    if (sanitizedPhone.length >= 8) {
-        whatsappNote.textContent = "";
-        return;
-    }
-
-    whatsappNote.textContent = "Add your WhatsApp number in app.js -> SITE_CONFIG.whatsappPhone (include country code).";
 }
 
 function renderWorkItems() {
@@ -120,7 +186,7 @@ function renderWorkItems() {
         return;
     }
 
-    grid.innerHTML = WORK_ITEMS.map((item) => {
+    grid.innerHTML = runtimeWorkItems.map((item) => {
         const layoutClass = `work-card--${escapeHtml(item.layout)}`;
         return `
             <article class="work-card ${layoutClass}" data-reveal style="--tone-a:${escapeHtml(item.toneA)}; --tone-b:${escapeHtml(item.toneB)};">
@@ -247,8 +313,7 @@ function initVideoFallback() {
         const playPromise = video.play();
         if (playPromise && typeof playPromise.catch === "function") {
             playPromise.catch(() => {
-                // Keep the video visible even if autoplay is blocked.
-                // A user interaction can still start playback.
+                // Keep visible if autoplay is blocked; user interaction can still trigger playback.
             });
         }
     };
@@ -265,7 +330,7 @@ function initVideoFallback() {
             const playPromise = video.play();
             if (playPromise && typeof playPromise.catch === "function") {
                 playPromise.catch(() => {
-                    // No-op: some environments still block media despite interaction.
+                    // Some browsers still block media despite pointer interaction.
                 });
             }
         },
@@ -274,35 +339,37 @@ function initVideoFallback() {
 }
 
 function initPortfolioVideo() {
-    const video = document.querySelector("[data-portfolio-video]");
-    if (!video) {
+    const videos = Array.from(document.querySelectorAll("[data-portfolio-video]"));
+    if (!videos.length) {
         return;
     }
 
-    if (prefersReducedMotion()) {
-        video.pause();
-        video.removeAttribute("autoplay");
-        video.setAttribute("controls", "");
-        return;
-    }
-
-    const attemptPlay = () => {
-        const playPromise = video.play();
-        if (playPromise && typeof playPromise.catch === "function") {
-            playPromise.catch(() => {
-                video.setAttribute("controls", "");
-            });
+    videos.forEach((video) => {
+        if (prefersReducedMotion()) {
+            video.pause();
+            video.removeAttribute("autoplay");
+            video.setAttribute("controls", "");
+            return;
         }
-    };
 
-    if (video.readyState >= 2) {
-        attemptPlay();
-    } else {
-        video.addEventListener("canplay", attemptPlay, { once: true });
-    }
+        const attemptPlay = () => {
+            const playPromise = video.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(() => {
+                    video.setAttribute("controls", "");
+                });
+            }
+        };
 
-    video.addEventListener("error", () => {
-        video.setAttribute("controls", "");
+        if (video.readyState >= 2) {
+            attemptPlay();
+        } else {
+            video.addEventListener("canplay", attemptPlay, { once: true });
+        }
+
+        video.addEventListener("error", () => {
+            video.setAttribute("controls", "");
+        });
     });
 }
 
@@ -475,15 +542,37 @@ function initHeaderState() {
 }
 
 function initCtaActions() {
-    const whatsappUrl = getWhatsAppUrl();
-
-    const openWhatsApp = () => {
-        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
-    };
-
     document.querySelectorAll("[data-whatsapp-cta]").forEach((element) => {
-        element.addEventListener("click", openWhatsApp);
+        element.addEventListener("click", () => {
+            const form = element.closest("form");
+            const message = form ? buildWhatsAppBriefFromForm(form) : runtimeSiteConfig.whatsappPrefillText;
+            const targetUrl = getWhatsAppUrl(message);
+
+            if (!targetUrl) {
+                const status = document.querySelector("#form-status");
+                if (status) {
+                    status.textContent = "WhatsApp is not configured yet.";
+                }
+                return;
+            }
+
+            window.open(targetUrl, "_blank", "noopener,noreferrer");
+        });
     });
+}
+
+function createMailtoHref(payload) {
+    const subject = `${runtimeSiteConfig.brandName} inquiry from ${payload.name}`;
+    const body = [
+        `Name: ${payload.name}`,
+        `Email: ${payload.email}`,
+        `Project Type: ${payload.projectType}`,
+        "",
+        "Message:",
+        payload.message
+    ].join("\n");
+
+    return `mailto:${runtimeSiteConfig.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 function initContactForm() {
@@ -494,39 +583,137 @@ function initContactForm() {
         return;
     }
 
-    form.addEventListener("submit", (event) => {
+    const submitButton = form.querySelector("button[type='submit']");
+    const defaultButtonLabel = submitButton ? submitButton.textContent : "Send Message";
+
+    const setLoadingState = (isLoading) => {
+        if (!submitButton) {
+            return;
+        }
+
+        submitButton.disabled = isLoading;
+        submitButton.textContent = isLoading ? "Sending..." : defaultButtonLabel;
+    };
+
+    form.addEventListener("submit", async (event) => {
         event.preventDefault();
 
         const data = new FormData(form);
-        const name = String(data.get("name") || "").trim();
-        const email = String(data.get("email") || "").trim();
-        const projectType = String(data.get("projectType") || "General Inquiry").trim();
-        const message = String(data.get("message") || "").trim();
+        const payload = {
+            name: String(data.get("name") || "").trim(),
+            email: String(data.get("email") || "").trim(),
+            projectType: String(data.get("projectType") || "General Inquiry").trim(),
+            message: String(data.get("message") || "").trim()
+        };
 
-        if (!name || !email || !message) {
+        if (!payload.name || !payload.email || !payload.message) {
             status.textContent = "Please complete all required fields before sending.";
             return;
         }
 
-        const subject = `${SITE_CONFIG.brandName} inquiry from ${name}`;
-        const body = [
-            `Name: ${name}`,
-            `Email: ${email}`,
-            `Project Type: ${projectType}`,
-            "",
-            "Message:",
-            message
-        ].join("\n");
+        setLoadingState(true);
+        status.textContent = "Submitting your project brief...";
 
-        const href = `mailto:${SITE_CONFIG.contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = href;
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
 
-        status.textContent = "Opening your email app with a pre-filled brief.";
-        form.reset();
+            const result = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                if (response.status >= 500 || response.status === 404) {
+                    status.textContent = "Submission service is unavailable. Opening your email app as fallback.";
+                    window.location.href = createMailtoHref(payload);
+                    return;
+                }
+                throw new Error(result.error || "Unable to submit right now. Please try again shortly.");
+            }
+
+            status.textContent = result.message || "Thanks. Your brief has been received.";
+            form.reset();
+        } catch (error) {
+            if (error instanceof TypeError) {
+                status.textContent = "Network issue detected. Opening your email app as fallback.";
+                window.location.href = createMailtoHref(payload);
+            } else {
+                status.textContent = error.message;
+            }
+        } finally {
+            setLoadingState(false);
+        }
     });
 }
 
-function init() {
+function normalizeSiteConfig(input) {
+    if (!input || typeof input !== "object") {
+        return null;
+    }
+
+    return {
+        ...runtimeSiteConfig,
+        ...input,
+        copyrightYear: Number(input.copyrightYear) || runtimeSiteConfig.copyrightYear
+    };
+}
+
+function normalizeWorkItems(items) {
+    if (!Array.isArray(items) || !items.length) {
+        return null;
+    }
+
+    return items.map((item, index) => ({
+        index: String(item.index || `${index + 1}`).padStart(2, "0"),
+        title: String(item.title || "Untitled Project"),
+        category: String(item.category || "Digital Experience"),
+        description: String(item.description || ""),
+        altText: String(item.altText || "Project visual"),
+        toneA: String(item.toneA || "#3f5e63"),
+        toneB: String(item.toneB || "#6f888f"),
+        layout: String(item.layout || "feature")
+    }));
+}
+
+async function loadBackendData() {
+    try {
+        const [configResponse, workResponse] = await Promise.all([
+            fetch("/api/config", {
+                headers: { "Accept": "application/json" },
+                cache: "no-store"
+            }),
+            fetch("/api/work-items", {
+                headers: { "Accept": "application/json" },
+                cache: "no-store"
+            })
+        ]);
+
+        if (configResponse.ok) {
+            const configJson = await configResponse.json();
+            const normalizedConfig = normalizeSiteConfig(configJson);
+            if (normalizedConfig) {
+                runtimeSiteConfig = normalizedConfig;
+            }
+        }
+
+        if (workResponse.ok) {
+            const workJson = await workResponse.json();
+            const normalizedItems = normalizeWorkItems(workJson.items);
+            if (normalizedItems) {
+                runtimeWorkItems = normalizedItems;
+            }
+        }
+    } catch (error) {
+        console.warn("Backend data unavailable; using frontend defaults.", error);
+    }
+}
+
+async function init() {
+    await loadBackendData();
     applySiteConfig();
     renderWorkItems();
     initHeroHeadline();
@@ -542,7 +729,10 @@ function init() {
     initContactForm();
 }
 
-document.addEventListener("DOMContentLoaded", init);
-
-
-
+document.addEventListener("DOMContentLoaded", () => {
+    init().catch((error) => {
+        console.error("Initialization failed:", error);
+        applySiteConfig();
+        renderWorkItems();
+    });
+});
