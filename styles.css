@@ -773,12 +773,41 @@ html.video-fallback .hero-video {
     max-width: 70ch;
 }
 
+
 .contact-shell {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
     gap: var(--space-16);
 }
 
+.contact-media-form {
+    display: grid;
+    gap: var(--space-8);
+}
+
+.contact-video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--surface-paper);
+    box-shadow: inset 0 0 0 1px var(--ghost-border), var(--hero-shadow);
+}
+
+.contact-video-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(45, 52, 53, 0.18));
+}
+
+.contact-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
 .contact-copy h2 {
     font-size: clamp(2.1rem, 5.6vw, 4.2rem);
     line-height: 0.95;
@@ -1149,3 +1178,13 @@ select:focus-visible {
         opacity: 1 !important;
     }
 }
+
+
+
+@media (max-width: 640px) {
+    .contact-video-container {
+        aspect-ratio: 4 / 3;
+    }
+}
+
+
