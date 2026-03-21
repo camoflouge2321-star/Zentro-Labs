@@ -340,13 +340,13 @@ html.video-fallback .hero-video {
 .hero-title {
     max-width: 14ch;
     font-size: clamp(2.8rem, 9vw, 7.1rem);
-    line-height: 0.88;
+    line-height: 0.93;
     margin-bottom: var(--space-8);
     text-shadow: 0 14px 34px rgba(0, 0, 0, 0.26);
 }
 
 .hero-copy {
-    max-width: 42ch;
+    max-width: 45ch;
     font-size: clamp(1.02rem, 2.2vw, 1.32rem);
     line-height: 1.7;
     color: rgba(255, 255, 255, 0.88);
