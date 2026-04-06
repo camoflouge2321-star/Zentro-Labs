@@ -1,11 +1,13 @@
-const { randomUUID } = require("node:crypto");
+const { randomUUID, timingSafeEqual } = require("node:crypto");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 
 const express = require("express");
+const helmet = require("helmet");
 const nodemailer = require("nodemailer");
 
 const app = express();
+app.set("trust proxy", true);
 const PORT = Number(process.env.PORT || 5500);
 
 const ROOT_DIR = __dirname;
@@ -14,6 +16,17 @@ const SITE_CONFIG_PATH = path.join(DATA_DIR, "site-config.json");
 const WORK_ITEMS_PATH = path.join(DATA_DIR, "work-items.json");
 const LEADS_PATH = path.join(DATA_DIR, "leads.json");
 const MAX_LEADS = 1000;
+const PUBLIC_FILE_ALLOWLIST = new Set([
+  "index.html",
+  "styles.css",
+  "app.js",
+  "favicon.svg",
+  "zentro-mark.svg",
+  "screen.png",
+  "hero.bg.mp4",
+  "portfolio-2video.mp4",
+  "Web_developer_portfolio_202603211941.mp4"
+]);
 
 const DEFAULT_SITE_CONFIG = {
   brandName: "Zentro Labs",
@@ -84,6 +97,61 @@ function sanitizeMessage(value, maxLength) {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function safeTokenEquals(left, right) {
+  const leftBuffer = Buffer.from(String(left));
+  const rightBuffer = Buffer.from(String(right));
+
+  if (leftBuffer.length !== rightBuffer.length) {
+    return false;
+  }
+
+  return timingSafeEqual(leftBuffer, rightBuffer);
+}
+
+function getClientIdentifier(req) {
+  const candidateIp =
+    (Array.isArray(req.ips) && req.ips.length ? req.ips[0] : req.ip) ||
+    req.socket?.remoteAddress ||
+    "unknown";
+  return sanitizeSingleLine(candidateIp, 120) || "unknown";
+}
+
+function createRateLimiter({ windowMs, max, errorMessage }) {
+  const store = new Map();
+
+  const cleanupInterval = setInterval(() => {
+    const now = Date.now();
+    for (const [key, value] of store.entries()) {
+      if (value.resetAt <= now) {
+        store.delete(key);
+      }
+    }
+  }, Math.max(10000, Math.floor(windowMs / 2)));
+  if (typeof cleanupInterval.unref === "function") {
+    cleanupInterval.unref();
+  }
+
+  return (req, res, next) => {
+    const key = `${getClientIdentifier(req)}:${req.path}`;
+    const now = Date.now();
+    const hit = store.get(key);
+
+    if (!hit || hit.resetAt <= now) {
+      store.set(key, { count: 1, resetAt: now + windowMs });
+      return next();
+    }
+
+    hit.count += 1;
+    if (hit.count > max) {
+      const retryAfter = Math.max(1, Math.ceil((hit.resetAt - now) / 1000));
+      res.set("Retry-After", String(retryAfter));
+      return res.status(429).json({ ok: false, error: errorMessage });
+    }
+
+    return next();
+  };
 }
 
 async function readJson(filePath, fallbackValue) {
@@ -221,9 +289,41 @@ async function sendLeadNotification(lead, siteConfig) {
   });
 }
 
+const isProduction = process.env.NODE_ENV === "production";
+const contactLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 12,
+  errorMessage: "Too many contact requests from this IP. Please try again shortly."
+});
+const adminLimiter = createRateLimiter({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  errorMessage: "Too many admin requests from this IP. Please retry later."
+});
+
 app.disable("x-powered-by");
+app.use(
+  helmet({
+    referrerPolicy: { policy: "no-referrer" },
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        "base-uri": ["'self'"],
+        "default-src": ["'self'"],
+        "font-src": ["'self'", "https://fonts.gstatic.com"],
+        "form-action": ["'self'", "mailto:"],
+        "img-src": ["'self'", "data:", "https:"],
+        "media-src": ["'self'", "https://res.cloudinary.com"],
+        "object-src": ["'none'"],
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        "upgrade-insecure-requests": isProduction ? [] : null
+      }
+    }
+  })
+);
 app.use(express.json({ limit: "200kb" }));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: "50kb" }));
 
 app.get("/api/health", (_req, res) => {
   res.json({
@@ -252,7 +352,7 @@ app.get("/api/work-items", async (_req, res) => {
   res.json({ items: safeItems });
 });
 
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", contactLimiter, async (req, res) => {
   try {
     const name = sanitizeSingleLine(req.body.name, 120);
     const email = sanitizeSingleLine(req.body.email, 160).toLowerCase();
@@ -303,14 +403,21 @@ app.post("/api/contact", async (req, res) => {
   }
 });
 
-app.get("/api/leads", async (req, res) => {
+app.get("/api/leads", adminLimiter, async (req, res) => {
   const adminToken = process.env.ADMIN_TOKEN;
   if (!adminToken) {
     return res.status(403).json({ ok: false, error: "Admin endpoint is disabled." });
   }
 
-  const inboundToken = String(req.get("x-admin-token") || req.query.token || "");
-  if (inboundToken !== adminToken) {
+  if (Object.prototype.hasOwnProperty.call(req.query || {}, "token")) {
+    return res.status(400).json({
+      ok: false,
+      error: "Query token auth is disabled. Use x-admin-token header."
+    });
+  }
+
+  const inboundToken = String(req.get("x-admin-token") || "").trim();
+  if (!safeTokenEquals(inboundToken, adminToken)) {
     return res.status(401).json({ ok: false, error: "Unauthorized." });
   }
 
@@ -322,16 +429,25 @@ app.use("/data", (_req, res) => {
   res.status(403).json({ ok: false, error: "Forbidden." });
 });
 
-app.use(
-  express.static(ROOT_DIR, {
-    index: "index.html",
-    extensions: ["html"]
-  })
-);
+app.get("/", (_req, res) => {
+  return res.sendFile(path.join(ROOT_DIR, "index.html"));
+});
+
+app.get("/:fileName", (req, res, next) => {
+  const fileName = String(req.params.fileName || "");
+  if (!PUBLIC_FILE_ALLOWLIST.has(fileName)) {
+    return next();
+  }
+  return res.sendFile(path.join(ROOT_DIR, fileName));
+});
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api/")) {
     return res.status(404).json({ ok: false, error: "Not found." });
+  }
+
+  if (path.extname(req.path)) {
+    return res.status(404).send("Not found.");
   }
 
   return res.sendFile(path.join(ROOT_DIR, "index.html"));
