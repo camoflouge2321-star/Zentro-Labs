@@ -452,9 +452,35 @@ function initFaqAccordion() {
     });
 }
 
+function initBrandLink() {
+    const brandLink = document.querySelector(".brand");
+    const header = document.querySelector("[data-header]");
+
+    if (!brandLink) {
+        return;
+    }
+
+    brandLink.addEventListener("click", (event) => {
+        const href = brandLink.getAttribute("href");
+        if (href && href.startsWith("#")) {
+            event.preventDefault();
+            const target = document.querySelector(href);
+            if (target) {
+                const headerHeight = header ? header.offsetHeight : 0;
+                const targetPosition = target.offsetTop - headerHeight;
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+    });
+}
+
 function initMenuToggle() {
     const toggle = document.querySelector("[data-menu-toggle]");
     const menu = document.querySelector("[data-menu]");
+    const header = document.querySelector("[data-header]");
 
     if (!toggle || !menu) {
         return;
@@ -471,7 +497,25 @@ function initMenuToggle() {
     });
 
     menu.querySelectorAll("a").forEach((link) => {
-        link.addEventListener("click", closeMenu);
+        link.addEventListener("click", (event) => {
+            const href = link.getAttribute("href");
+            // Only close menu and handle smooth scroll for anchor links
+            if (href && href.startsWith("#")) {
+                event.preventDefault();
+                closeMenu();
+                const target = document.querySelector(href);
+                if (target) {
+                    const headerHeight = header ? header.offsetHeight : 0;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            } else {
+                closeMenu();
+            }
+        });
     });
 
     window.addEventListener("resize", () => {
@@ -505,6 +549,10 @@ function initHeaderState() {
         })
         .filter(Boolean);
 
+    const getHeaderHeight = () => {
+        return header ? header.offsetHeight : 0;
+    };
+
     const updateHeader = () => {
         if (!header) {
             return;
@@ -535,6 +583,19 @@ function initHeaderState() {
         updateHeader();
         updateActiveLink();
     };
+
+    // Handle smooth scroll with header offset
+    sectionMap.forEach(({ link, section }) => {
+        link.addEventListener("click", (event) => {
+            event.preventDefault();
+            const headerHeight = getHeaderHeight();
+            const targetPosition = section.offsetTop - headerHeight;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: "smooth"
+            });
+        });
+    });
 
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -718,13 +779,14 @@ async function init() {
     renderWorkItems();
     initHeroHeadline();
     initRevealAnimations();
+    initMenuToggle();
     initHeaderState();
     initParallax();
     initVideoFallback();
     initPortfolioVideo();
     initMetricCounters();
     initFaqAccordion();
-    initMenuToggle();
+    initBrandLink();
     initCtaActions();
     initContactForm();
 }
