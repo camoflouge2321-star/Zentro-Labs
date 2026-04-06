@@ -461,11 +461,10 @@ html.video-fallback .hero-video {
     font-size: clamp(2.8rem, 9vw, 7.1rem);
     line-height: 0.93;
     margin-bottom: var(--space-8);
-    background: linear-gradient(140deg, #ffffff 20%, var(--ink) 55%, var(--orange-bright) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 0 40px rgba(255, 107, 26, 0.18));
+    color: #ffffff;
+    text-shadow:
+        0 2px 20px rgba(0, 0, 0, 0.55),
+        0 0 60px rgba(255, 107, 26, 0.20);
 }
 
 .hero-copy {
