@@ -383,8 +383,16 @@ main {
 
 .section-head h2 {
     font-size: clamp(2.1rem, 5.4vw, 4.4rem);
-    line-height: 0.95;
+    line-height: 1.15;
     color: var(--ink);
+}
+
+/* Concept / Display headline — needs more room when wrapping across 2 lines */
+.display-title {
+    font-size: clamp(2.1rem, 5.4vw, 4.4rem);
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.02em;
 }
 
 .section-intro {
@@ -510,30 +518,7 @@ html.video-fallback .hero-video {
     box-shadow: 0 0 16px rgba(255, 107, 26, 0.18);
 }
 
-.hero-ornament {
-    position: absolute;
-    width: clamp(180px, 22vw, 300px);
-    height: clamp(180px, 22vw, 300px);
-    right: clamp(1rem, 6vw, 6rem);
-    bottom: clamp(2rem, 10vw, 10rem);
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, rgba(255, 107, 26, 0.22), rgba(255, 107, 26, 0.02) 70%);
-    box-shadow:
-        0 0 60px rgba(255, 107, 26, 0.22),
-        0 0 120px rgba(255, 107, 26, 0.10),
-        inset 0 0 40px rgba(255, 107, 26, 0.08);
-    animation: pulse-orb 5s ease-in-out infinite alternate;
-}
-
-@keyframes pulse-orb {
-    from {
-        box-shadow: 0 0 60px rgba(255, 107, 26, 0.22), 0 0 120px rgba(255, 107, 26, 0.10);
-    }
-
-    to {
-        box-shadow: 0 0 90px rgba(255, 107, 26, 0.36), 0 0 180px rgba(255, 107, 26, 0.16);
-    }
-}
+/* .hero-ornament removed — div deleted from HTML */
 
 /* ═══════════════════════════════════════
    BUTTONS
@@ -1723,7 +1708,7 @@ html.video-fallback .hero-video {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 95, 0, 0.15);
-    padding: 2rem;
+    padding: 2.5rem;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -1740,8 +1725,8 @@ html.video-fallback .hero-video {
 
 .concept-badge {
     position: absolute;
-    top: 1.5rem;
-    left: 1.5rem;
+    top: 2.5rem;
+    left: 2.5rem;
     font-size: 0.55rem;
     text-transform: uppercase;
     letter-spacing: 0.2em;
