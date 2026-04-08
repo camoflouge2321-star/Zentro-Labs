@@ -1710,13 +1710,13 @@ html.video-fallback .hero-video {
 }
 
 .concept-card {
-    background: rgba(15, 16, 17, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 8px;
-    padding: 2.5rem;
+    background: rgba(15, 15, 15, 0.75);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 95, 0, 0.15);
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    justify-content: space-between;
     position: relative;
     transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease;
 }
@@ -2085,18 +2085,18 @@ select:focus-visible {
 
 /* Updated button styles for "View Live Site" */
 .btn-live-site {
-    color: var(--orange);
-    border: 1px solid var(--orange);
-    background: transparent;
+    color: #ff5f00;
+    border: 1px solid #ff5f00;
     padding: 0.8rem 1.5rem;
-    border-radius: var(--radius-md);
+    border-radius: 4px;
     font-size: 0.9rem;
     font-weight: 600;
     text-transform: uppercase;
+    text-align: center;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 .btn-live-site:hover {
-    background: var(--orange);
+    background: #ff5f00;
     color: #fff;
 }
