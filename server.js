@@ -1,10 +1,15 @@
-const { randomUUID, timingSafeEqual } = require("node:crypto");
-const fs = require("node:fs/promises");
-const path = require("node:path");
+import { randomUUID, timingSafeEqual } from "node:crypto";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-const express = require("express");
-const helmet = require("helmet");
-const nodemailer = require("nodemailer");
+import express from "express";
+import helmet from "helmet";
+import nodemailer from "nodemailer";
+
+// ── __dirname / __filename don't exist in ES modules; reconstruct them ──
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.set("trust proxy", true);
@@ -453,9 +458,12 @@ app.get("*", (req, res) => {
   return res.sendFile(path.join(ROOT_DIR, "index.html"));
 });
 
-module.exports = app;
+// ── ESM equivalent of `module.exports = app` ──
+export default app;
 
-if (require.main === module) {
+// ── ESM equivalent of `if (require.main === module)` ──
+// Compares the resolved path of this file against the Node.js entry-point.
+if (pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
   ensureDataFiles()
     .then(() => {
       app.listen(PORT, () => {
