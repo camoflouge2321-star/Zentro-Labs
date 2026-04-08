@@ -1700,6 +1700,15 @@ html.video-fallback .hero-video {
 }
 
 /* ═══════════════════════════════════════
+   CONCEPT SECTION — Solid Black Background
+═══════════════════════════════════════ */
+.concept-section {
+    background: #000 !important;
+    border-top: 1px solid rgba(255, 95, 0, 0.10);
+    border-bottom: none;
+}
+
+/* ═══════════════════════════════════════
    CONCEPT PROJECTS (AI Browser Grid)
 ═══════════════════════════════════════ */
 .concept-grid {
@@ -1712,19 +1721,21 @@ html.video-fallback .hero-video {
 .concept-card {
     background: rgba(15, 15, 15, 0.75);
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 95, 0, 0.15);
     padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    gap: 1.5rem;
     position: relative;
-    transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease;
+    transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
 }
 
 .concept-card:hover {
     transform: translateY(-5px);
-    border-color: rgba(255, 107, 26, 0.2);
-    background: rgba(20, 21, 23, 0.6);
+    border-color: rgba(255, 107, 26, 0.35);
+    background: rgba(20, 21, 23, 0.85);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 95, 0, 0.08);
 }
 
 .concept-badge {
@@ -1789,7 +1800,16 @@ html.video-fallback .hero-video {
 }
 
 .concept-info {
-    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    /* No margin-top: auto here — gap on .concept-card handles spacing */
+}
+
+.concept-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .concept-category {
@@ -1802,16 +1822,18 @@ html.video-fallback .hero-video {
 }
 
 .concept-card h4 {
-    font-family: var(--font-primary);
-    font-size: 1.25rem;
+    font-family: "Newsreader", serif;
+    font-size: 1.35rem;
     color: #fff;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.25rem;
 }
 
 .concept-desc {
     font-size: 0.9rem;
     line-height: 1.6;
     color: var(--ink-muted);
+    margin-bottom: 0;
 }
 
 /* ─── Responsive ─── */
@@ -2085,18 +2107,28 @@ select:focus-visible {
 
 /* Updated button styles for "View Live Site" */
 .btn-live-site {
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
     color: #ff5f00;
     border: 1px solid #ff5f00;
-    padding: 0.8rem 1.5rem;
+    padding: 0.85rem 1.5rem;
     border-radius: 4px;
-    font-size: 0.9rem;
+    font-family: "Inter", sans-serif;
+    font-size: 0.72rem;
     font-weight: 600;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    text-align: center;
-    transition: background 0.3s ease, color 0.3s ease;
+    background: transparent;
+    transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    margin-top: auto;
+    /* Pushed to bottom of .concept-info flex column */
 }
 
 .btn-live-site:hover {
     background: #ff5f00;
-    color: #fff;
+    color: #ffffff;
+    box-shadow: 0 0 24px rgba(255, 95, 0, 0.35);
+    border-color: #ff5f00;
 }
