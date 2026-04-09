@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://zentro-labs.vercel.app/sitemap.xml
+Sitemap: https://zentro-labs.vercel.app/video-sitemap.xml

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://zentro-labs.vercel.app/video-spice-garden.html</loc>
+    <video:video>
+      <video:thumbnail_loc>https://res.cloudinary.com/dvjffmzh4/image/upload/q_auto/f_auto/v1775560223/Screenshot_2026-04-07_134859_b7qkxc.png</video:thumbnail_loc>
+      <video:title>Spice Garden Project Video</video:title>
+      <video:description>Full walkthrough of the Spice Garden restaurant website project by Zentro Labs.</video:description>
+      <video:content_loc>https://res.cloudinary.com/dvjffmzh4/video/upload/q_auto/f_auto/v1775559836/Recording_2026-04-07_163107_v0q8vb.mp4</video:content_loc>
+      <video:publication_date>2026-04-07T00:00:00+05:30</video:publication_date>
+    </video:video>
+  </url>
+  <url>
+    <loc>https://zentro-labs.vercel.app/video-luca-moretti.html</loc>
+    <video:video>
+      <video:thumbnail_loc>https://res.cloudinary.com/dvjffmzh4/image/upload/q_auto/f_auto/v1775560338/Screenshot_2026-04-07_135739_g2ebln.png</video:thumbnail_loc>
+      <video:title>Luca Moretti Project Video</video:title>
+      <video:description>Full walkthrough of the Luca Moretti photography portfolio project by Zentro Labs.</video:description>
+      <video:content_loc>https://res.cloudinary.com/dvjffmzh4/video/upload/q_auto/f_auto/v1775559862/Screen_Recording_2026-04-07_162757_t1m1ck.mp4</video:content_loc>
+      <video:publication_date>2026-04-07T00:00:00+05:30</video:publication_date>
+    </video:video>
+  </url>
+</urlset>
