@@ -1,9 +1,0 @@
-{
-  "name": "zentro-labs-static",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "echo 'No build needed' && exit 0",
-    "install": "echo 'No install needed' && exit 0"
-  }
-}
