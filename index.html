@@ -30,15 +30,15 @@
     <meta name="twitter:image" content="https://zentrolabs.com/screen.png" />
 
     <title>Zentro Labs | High-Performance Web Design & Development</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate icon" href="/zentro-mark.svg" />
-    <link rel="apple-touch-icon" href="/screen.png" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="alternate icon" href="zentro-mark.svg" />
+    <link rel="apple-touch-icon" href="screen.png" />
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="styles.css" />
     <script type="application/ld+json">
         {
             "@context": "https://schema.org",
@@ -60,7 +60,7 @@
     <header class="site-header" data-header id="home">
         <div class="container nav-shell">
             <a aria-label="Zentro Labs home" class="brand" href="#home">
-                <img alt="" aria-hidden="true" class="brand-mark" src="/zentro-mark.svg" />
+                <img alt="" aria-hidden="true" class="brand-mark" src="zentro-mark.svg" />
                 <span class="brand-word">
                     <span class="brand-title" data-brand>Zentro Labs</span>
                     <span class="brand-tag">Web Design & Development</span>
@@ -88,8 +88,8 @@
         <section class="hero" aria-label="Hero" id="hero">
             <div class="hero-media" aria-hidden="true">
                 <video class="hero-video" data-hero-video autoplay="" loop="" muted="" playsinline=""
-                    poster="/screen.png" preload="metadata">
-                    <source src="/hero.bg.mp4" type="video/mp4" />
+                    poster="screen.png" preload="metadata">
+                    <source src="hero.bg.mp4" type="video/mp4" />
                 </video>
                 <div class="hero-overlay"></div>
             </div>
@@ -113,6 +113,7 @@
                     <li>Zero-Bug Deployments</li>
                     <li>Security Tested Before Launch</li>
                 </ul>
+            </div>
         </section>
 
         <!-- ═══════════════════════════════════════
@@ -436,7 +437,7 @@
                             <!-- PIXEL SHAVE FIX: Hiding internal video artifact -->
                             <div class="video-shave-bottom">
                                 <video loop muted playsinline
-                                    poster="https://res.cloudinary.com/dvjffmzh4/image/upload/q_auto/f_auto/v1775560223/Screenshot_2026-04-07_134859_b7qkxc.png">
+                                    poster="screen.png">
                                     <source
                                         src="https://res.cloudinary.com/dvjffmzh4/video/upload/q_auto/f_auto/v1775559836/Recording_2026-04-07_163107_v0q8vb.mp4"
                                         type="video/mp4">
@@ -646,7 +647,7 @@
     <footer class="site-footer">
         <div class="container footer-shell">
             <a aria-label="Zentro Labs home" class="brand brand--footer" href="#home">
-                <img alt="" aria-hidden="true" class="brand-mark" src="/zentro-mark.svg" />
+                <img alt="" aria-hidden="true" class="brand-mark" src="zentro-mark.svg" />
                 <span class="brand-word">
                     <span class="brand-title" data-brand>Zentro Labs</span>
                 </span>
@@ -663,44 +664,7 @@
         </div>
     </footer>
 
-    <script>
-        /* ═══════════════════════════════════════
-           PORTFOLIO ENGINE (Video Focused)
-           ═══════════════════════════════════════ */
-        document.addEventListener('DOMContentLoaded', () => {
-
-            // 1. Horizontal Video Showcase Logic (id="portfolio")
-            const showcaseCards = document.querySelectorAll('.showcase-card');
-            const showcaseVideos = document.querySelectorAll('.showcase-media video');
-
-            if (showcaseCards.length > 0) {
-                // Initialize first card
-                showcaseCards[0].classList.add('is-active');
-                const firstVideo = showcaseCards[0].querySelector('video');
-                if (firstVideo) firstVideo.play().catch(() => { });
-
-                const videoObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        const card = entry.target;
-                        const video = card.querySelector('video');
-
-                        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-                            showcaseCards.forEach(c => c.classList.remove('is-active'));
-                            card.classList.add('is-active');
-
-                            showcaseVideos.forEach(v => { if (v !== video) v.pause(); });
-                            if (video) video.play().catch(() => { });
-                        } else {
-                            card.classList.remove('is-active');
-                            if (video) video.pause();
-                        }
-                    });
-                }, { threshold: 0.5 });
-
-                showcaseCards.forEach(card => videoObserver.observe(card));
-            }
-        });
-    </script>
+    <script src="app.js"></script>
 
 </body>
 
