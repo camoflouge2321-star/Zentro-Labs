@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Enhanced Intersection Observer for Reveal Animations
     const revealItems = document.querySelectorAll('[data-reveal]');
-    
+
     const revealObserver = new IntersectionObserver((entries) => {
         let delayCount = 0;
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const el = entry.target;
-                
+
                 // If multiple items appear at once (like in a grid), stagger them
                 if (!el.style.getPropertyValue('--reveal-delay')) {
                     el.style.setProperty('--reveal-delay', `${delayCount * 100}ms`);
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 revealObserver.unobserve(el);
             }
         });
-    }, { 
+    }, {
         threshold: 0.05, // Trigger earlier so it feels more responsive
         rootMargin: "0px 0px -50px 0px" // Start a bit before it enters the frame
     });
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let count = 0;
                 const duration = 2000;
                 const step = target / (duration / 16);
-                
+
                 const timer = setInterval(() => {
                     count += step;
                     if (count >= target) {
