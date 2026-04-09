@@ -1024,6 +1024,11 @@ html.video-fallback .hero-video {
 .contact-form {
     display: grid;
     gap: var(--space-8);
+    background: rgba(255, 255, 255, 0.02);
+    padding: var(--space-8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
 }
 
 .field-grid {
@@ -1072,7 +1077,7 @@ html.video-fallback .hero-video {
 .field-textarea:focus {
     outline: none;
     border-bottom-color: var(--orange);
-    box-shadow: 0 3px 0 -1px rgba(255, 107, 26, 0.20);
+    box-shadow: 0 4px 12px -2px rgba(255, 107, 26, 0.15);
 }
 
 .field-input option {
@@ -1093,6 +1098,45 @@ html.video-fallback .hero-video {
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-muted);
+}
+
+.form-success-msg,
+.form-error-msg {
+    display: none;
+    font-size: 0.85rem;
+    padding: 1rem;
+    border-radius: var(--radius-sm);
+    margin-top: 1rem;
+    line-height: 1.5;
+}
+
+.form-success-msg {
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.1);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+.form-error-msg {
+    color: #f87171;
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+.field-error {
+    font-size: 0.7rem;
+    color: #f87171;
+    margin-top: 0.25rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+/* Formspree State Management */
+form:has([data-fs-success]:not(:empty)) .form-success-msg { display: block; }
+form:has([data-fs-error]:not(:empty)) .form-error-msg { display: block; }
+form:has([data-fs-success]:not(:empty)) .field-grid,
+form:has([data-fs-success]:not(:empty)) .field,
+form:has([data-fs-success]:not(:empty)) .form-actions {
+    display: none;
 }
 
 /* ═══════════════════════════════════════

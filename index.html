@@ -575,23 +575,25 @@
                     </p>
                 </div>
 
-                <form class="contact-form" data-contact-form data-reveal>
+                <form class="contact-form" action="https://formspree.io/f/mqegolge" method="POST" data-contact-form data-reveal id="contact-form">
                     <div class="field-grid">
                         <label class="field">
                             <span>Full Name</span>
                             <input class="field-input" name="name" placeholder="Jane Smith" required="" type="text"
-                                id="contact-name" />
+                                id="contact-name" data-fs-field />
+                            <span class="field-error" data-fs-error="name"></span>
                         </label>
                         <label class="field">
                             <span>Email Address</span>
                             <input class="field-input" name="email" placeholder="jane@yourbusiness.com" required=""
-                                type="email" id="contact-email" />
+                                type="email" id="contact-email" data-fs-field />
+                            <span class="field-error" data-fs-error="email"></span>
                         </label>
                     </div>
 
                     <label class="field">
                         <span>Project Type</span>
-                        <select class="field-input" name="projectType" id="contact-project-type">
+                        <select class="field-input" name="projectType" id="contact-project-type" data-fs-field>
                             <option value="New Website">New Website — Build from Scratch</option>
                             <option value="Redesign">Redesign — Improve Existing Site</option>
                             <option value="E-Commerce">E-Commerce Store</option>
@@ -600,18 +602,20 @@
                             <option value="Free Mockup">Free Mockup (Claim My Offer!)</option>
                             <option value="Other">Other / Not Sure Yet</option>
                         </select>
+                        <span class="field-error" data-fs-error="projectType"></span>
                     </label>
 
                     <label class="field">
                         <span>Project Details</span>
                         <textarea class="field-textarea" name="message" id="contact-message"
                             placeholder="Tell us about your business, what you need, and any goals or deadlines we should know about."
-                            required=""></textarea>
+                            required="" data-fs-field></textarea>
+                        <span class="field-error" data-fs-error="message"></span>
                     </label>
 
                     <label class="field">
                         <span>Estimated Budget</span>
-                        <select class="field-input" name="budget" id="contact-budget">
+                        <select class="field-input" name="budget" id="contact-budget" data-fs-field>
                             <option value="Under 500">Under $500</option>
                             <option value="500-1500">$500 – $1,500</option>
                             <option value="1500-3000">$1,500 – $3,000</option>
@@ -619,13 +623,16 @@
                             <option value="5000+">$5,000+</option>
                             <option value="Not Sure">I'm not sure yet</option>
                         </select>
+                        <span class="field-error" data-fs-error="budget"></span>
                     </label>
 
                     <div class="form-actions">
-                        <button class="btn btn-primary" type="submit" id="contact-submit-btn">Send Message</button>
+                        <button class="btn btn-primary" type="submit" id="contact-submit-btn" data-fs-submit-btn>Send Message</button>
                         <button class="btn btn-secondary" data-whatsapp-cta type="button" id="contact-whatsapp-btn">Open
                             WhatsApp</button>
                     </div>
+                    <div class="form-success-msg" data-fs-success>Thank you! Your inquiry has been sent. We'll be in touch within 24 hours.</div>
+                    <div class="form-error-msg" data-fs-error>Oops! There was a problem. Please check the fields above.</div>
                     <p class="form-status" id="form-status" aria-live="polite"></p>
                     <p class="form-note" data-whatsapp-note></p>
                 </form>
@@ -671,6 +678,11 @@
         </div>
     </footer>
 
+    <script>
+        window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+        formspree('initForm', { formElement: '#contact-form', formId: 'mqegolge' });
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
     <script src="app.js"></script>
 
 </body>
