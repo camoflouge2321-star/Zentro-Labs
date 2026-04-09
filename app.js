@@ -36,17 +36,39 @@ document.addEventListener('DOMContentLoaded', () => {
         if (header) header.classList.toggle("is-scrolled", window.scrollY > 50);
     }, { passive: true });
 
-    // 4. Intersection Observer for Reveal Animations
+    // 4. Enhanced Intersection Observer for Reveal Animations
+    const revealItems = document.querySelectorAll('[data-reveal]');
+    
     const revealObserver = new IntersectionObserver((entries) => {
+        let delayCount = 0;
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                revealObserver.unobserve(entry.target);
+                const el = entry.target;
+                
+                // If multiple items appear at once (like in a grid), stagger them
+                if (!el.style.getPropertyValue('--reveal-delay')) {
+                    el.style.setProperty('--reveal-delay', `${delayCount * 100}ms`);
+                    delayCount++;
+                }
+
+                el.classList.add('is-visible');
+                revealObserver.unobserve(el);
             }
         });
-    }, { threshold: 0.15 });
+    }, { 
+        threshold: 0.05, // Trigger earlier so it feels more responsive
+        rootMargin: "0px 0px -50px 0px" // Start a bit before it enters the frame
+    });
 
-    document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+    // Reveal elements that are already visible on load immediately
+    revealItems.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            el.classList.add('is-visible');
+        } else {
+            revealObserver.observe(el);
+        }
+    });
 
     // 5. Portfolio Video Showcase Logic
     const showcaseCards = document.querySelectorAll('.showcase-card');
