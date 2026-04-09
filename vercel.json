@@ -5,6 +5,50 @@
       "has": [
         {
           "type": "host",
+          "value": "zentro-labs-mmq6.vercel.app"
+        }
+      ],
+      "destination": "https://zentro-labs.vercel.app/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "zentro-labs-irxzinj0z-camoflouge2321-stars-projects.vercel.app"
+        }
+      ],
+      "destination": "https://zentro-labs.vercel.app/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "zentro-labs-odbyazfs5-camoflouge2321-stars-projects.vercel.app"
+        }
+      ],
+      "destination": "https://zentro-labs.vercel.app/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "zentro-labs-6l5i63zy9-camoflouge2321-stars-projects.vercel.app"
+        }
+      ],
+      "destination": "https://zentro-labs.vercel.app/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
           "value": "zentrolabs.com"
         }
       ],
