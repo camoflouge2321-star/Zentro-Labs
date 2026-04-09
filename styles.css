@@ -1717,23 +1717,25 @@ html.video-fallback .hero-video {
 }
 
 .concept-card:hover {
-    transform: translateY(-5px);
-    border-color: rgba(255, 107, 26, 0.35);
-    background: rgba(20, 21, 23, 0.85);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 95, 0, 0.08);
+    transform: translateY(-8px);
+    border-color: rgba(255, 107, 26, 0.45);
+    background: rgba(20, 21, 23, 0.92);
+    box-shadow: 
+        0 30px 60px rgba(0, 0, 0, 0.7), 
+        0 0 50px rgba(255, 95, 0, 0.12),
+        0 0 0 1px rgba(255, 107, 26, 0.1) inset;
 }
 
 .concept-badge {
-    position: absolute;
-    top: 2.5rem;
-    left: 2.5rem;
-    font-size: 0.55rem;
+    font-size: 0.58rem;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--ink-muted);
-    background: rgba(255, 255, 255, 0.03);
-    padding: 4px 10px;
-    border-radius: 2px;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 3px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-weight: 500;
 }
 
 .concept-browser {
@@ -1749,20 +1751,25 @@ html.video-fallback .hero-video {
 }
 
 .concept-browser-bar {
-    height: 24px;
+    height: 36px;
     background: #1a1a1a;
     display: flex;
     align-items: center;
-    padding: 0 10px;
-    gap: 5px;
+    justify-content: space-between;
+    padding: 0 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.concept-dots {
+    display: flex;
+    gap: 6px;
+}
+
 .concept-dot {
-    width: 6px;
-    height: 6px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
+    opacity: 0.85;
 }
 
 .concept-dot:nth-child(1) { background: #ff5f56; }
@@ -1785,10 +1792,10 @@ html.video-fallback .hero-video {
 }
 
 .concept-info {
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
-    /* No margin-top: auto here — gap on .concept-card handles spacing */
 }
 
 .concept-meta {
