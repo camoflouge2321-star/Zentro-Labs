@@ -450,8 +450,10 @@ app.get("*", (req, res) => {
 export default app;
 
 // ── ESM equivalent of `if (require.main === module)` ──
-// Compares the resolved path of this file against the Node.js entry-point.
-if (pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
+const isMainModule = process.argv[1] &&
+  pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url;
+
+if (isMainModule) {
   ensureDataFiles()
     .then(() => {
       app.listen(PORT, () => {
@@ -460,6 +462,9 @@ if (pathToFileURL(path.resolve(process.argv[1])).href === import.meta.url) {
     })
     .catch((error) => {
       console.error("Server startup failed:", error);
-      process.exit(1);
     });
+} else {
+  // Always try to initialize data files, but ignore errors (e.g., read-only FS on Vercel)
+  ensureDataFiles().catch(() => {});
 }
+
