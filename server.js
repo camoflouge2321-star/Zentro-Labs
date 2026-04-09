@@ -21,17 +21,12 @@ const SITE_CONFIG_PATH = path.join(DATA_DIR, "site-config.json");
 const WORK_ITEMS_PATH = path.join(DATA_DIR, "work-items.json");
 const LEADS_PATH = path.join(DATA_DIR, "leads.json");
 const MAX_LEADS = 1000;
-const PUBLIC_FILE_ALLOWLIST = new Set([
-  "index.html",
-  "styles.css",
-  "app.js",
-  "favicon.svg",
-  "zentro-mark.svg",
-  "screen.png",
-  "hero.bg.mp4",
-  "portfolio-2video.mp4",
-  "Web_developer_portfolio_202603211941.mp4"
-]);
+// ── Static File Middleware ──
+// Serve files from the root, src, and public directories
+app.use("/src", express.static(path.join(ROOT_DIR, "src")));
+app.use("/public", express.static(path.join(ROOT_DIR, "public")));
+app.use(express.static(ROOT_DIR, { index: false })); // Serve root files like favicon.svg, screen.png
+
 
 const DEFAULT_SITE_CONFIG = {
   brandName: "Zentro Labs",
@@ -435,16 +430,9 @@ app.use("/data", (_req, res) => {
 });
 
 app.get("/", (_req, res) => {
-  return res.sendFile(path.join(ROOT_DIR, "index.html"));
+  res.sendFile(path.join(ROOT_DIR, "index.html"));
 });
 
-app.get("/:fileName", (req, res, next) => {
-  const fileName = String(req.params.fileName || "");
-  if (!PUBLIC_FILE_ALLOWLIST.has(fileName)) {
-    return next();
-  }
-  return res.sendFile(path.join(ROOT_DIR, fileName));
-});
 
 app.get("*", (req, res) => {
   if (req.path.startsWith("/api/")) {
