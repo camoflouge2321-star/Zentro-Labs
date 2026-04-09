@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zentro-labs-mmq6.vercel.app/sitemap.xml
