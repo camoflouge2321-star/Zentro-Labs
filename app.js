@@ -10,6 +10,18 @@ const CONFIG = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Force Hero Video Play
+    const heroVideo = document.querySelector('[data-hero-video]');
+    if (heroVideo) {
+        heroVideo.muted = true; // double-ensure muted for autoplay
+        heroVideo.play().catch(() => {
+            // Browsers like Chrome sometimes block autoplay even if muted until first interaction
+            window.addEventListener('click', () => {
+                heroVideo.play().catch(() => {});
+            }, { once: true });
+        });
+    }
+
     // 1. Apply Config
     document.querySelectorAll("[data-year]").forEach(el => el.textContent = CONFIG.copyrightYear);
 

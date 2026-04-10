@@ -36,7 +36,7 @@
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Syne:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <script type="application/ld+json">
@@ -88,6 +88,7 @@
              HERO SECTION
         ═══════════════════════════════════════ -->
         <section class="hero" aria-label="Hero" id="hero">
+            <!-- ── Video background — untouched ── -->
             <div class="hero-media" aria-hidden="true">
                 <video class="hero-video" data-hero-video autoplay="" loop="" muted="" playsinline=""
                     poster="screen.png" preload="metadata">
@@ -96,25 +97,56 @@
                 <div class="hero-overlay"></div>
             </div>
 
-            <div class="container hero-content">
-                <p class="eyebrow" data-reveal>Zentro Labs · Est. MMXXIV</p>
-                <h1 class="hero-title" data-hero-headline>
-                    Your Website Should Work as Hard as You Do.
-                </h1>
-                <p class="hero-copy" data-reveal>
-                    We build high-performance, secure websites that convert visitors into paying customers.
-                    No cheap templates. No cookie-cutter agencies. Just clean, custom code and design that means
-                    business.
-                </p>
-                <div class="hero-actions" data-reveal>
-                    <a class="btn btn-primary" href="#contact" id="hero-quote-btn">Get a Free Quote</a>
-                    <a class="btn btn-secondary" href="#work" id="hero-work-btn">View Our Work</a>
+            <!-- ── Hero content ── -->
+            <div class="zhero-inner">
+
+                <!-- Pill tag -->
+                <div class="zhero-pill">
+                    <span aria-hidden="true">⚡</span> PREMIUM DIGITAL STUDIO — EST. 2024
                 </div>
-                <ul class="hero-signals" data-reveal>
-                    <li>95+ PageSpeed Scores</li>
-                    <li>Zero-Bug Deployments</li>
-                    <li>Security Tested Before Launch</li>
-                </ul>
+
+                <!-- Main headline (Original text in Figma layout) -->
+                <h1 class="zhero-title">
+                    <span class="zhero-row">Your Website Should</span>
+                    <span class="zhero-row">Work as <em class="zhero-accent">Hard</em></span>
+                    <span class="zhero-row zhero-row--ghost">as You Do.</span>
+                </h1>
+
+                <!-- Description + CTA row (Original tagline in Figma layout) -->
+                <div class="zhero-footer">
+                    <p class="zhero-desc">
+                        We build high-performance, secure websites that convert 
+                        visitors into paying customers. No cheap templates. 
+                        Custom code only.
+                    </p>
+                    <div class="zhero-cta-row">
+                        <a class="zhero-btn-primary" href="#work" id="hero-work-btn">VIEW OUR WORK →</a>
+                        <a class="zhero-btn-ghost" href="#contact" id="hero-quote-btn">LET'S TALK →</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Marquee ticker ── -->
+            <div class="zhero-ticker" aria-hidden="true">
+                <div class="zhero-ticker-track">
+                    <span>Branding</span><span class="zhero-sep">•</span>
+                    <span>E-Commerce</span><span class="zhero-sep">•</span>
+                    <span>Motion Design</span><span class="zhero-sep">•</span>
+                    <span>SEO</span><span class="zhero-sep">•</span>
+                    <span>Web Design</span><span class="zhero-sep">•</span>
+                    <span>UI/UX</span><span class="zhero-sep">•</span>
+                    <span>Full-Stack Dev</span><span class="zhero-sep">•</span>
+                    <span>Performance</span><span class="zhero-sep">•</span>
+                    <!-- duplicate for seamless loop -->
+                    <span>Branding</span><span class="zhero-sep">•</span>
+                    <span>E-Commerce</span><span class="zhero-sep">•</span>
+                    <span>Motion Design</span><span class="zhero-sep">•</span>
+                    <span>SEO</span><span class="zhero-sep">•</span>
+                    <span>Web Design</span><span class="zhero-sep">•</span>
+                    <span>UI/UX</span><span class="zhero-sep">•</span>
+                    <span>Full-Stack Dev</span><span class="zhero-sep">•</span>
+                    <span>Performance</span><span class="zhero-sep">•</span>
+                </div>
             </div>
         </section>
 
