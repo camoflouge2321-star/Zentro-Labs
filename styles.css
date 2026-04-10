@@ -403,7 +403,7 @@ main {
 }
 
 /* ═══════════════════════════════════════
-   HERO
+   HERO  — Premium / Agency-Grade Redesign
 ═══════════════════════════════════════ */
 .hero {
     position: relative;
@@ -966,7 +966,7 @@ html.video-fallback .hero-video {
 }
 
 .faq-list details[open] summary::after {
-    content: "−";
+    content: "\2212";
     transform: rotate(180deg);
     text-shadow: 0 0 18px var(--orange-glow);
 }
