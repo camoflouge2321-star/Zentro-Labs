@@ -230,12 +230,12 @@ p {
     width: 2.45rem;
     height: 2.45rem;
     flex: none;
-    filter: drop-shadow(0 0 12px var(--orange-glow)) brightness(2) sepia(1) saturate(3) hue-rotate(330deg);
-    transition: filter 300ms ease;
+    object-fit: contain;
+    transition: transform 300ms ease;
 }
 
 .brand:hover .brand-mark {
-    filter: drop-shadow(0 0 20px var(--orange-glow)) brightness(2.2) sepia(1) saturate(3) hue-rotate(330deg);
+    transform: scale(1.05);
 }
 
 .brand-word {
