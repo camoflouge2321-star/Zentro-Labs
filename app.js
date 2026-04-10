@@ -39,18 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (header) header.classList.toggle("is-scrolled", window.scrollY > 50);
     }, { passive: true });
 
+    // Basic Entrance Reveal
     const revealItems = document.querySelectorAll('[data-reveal]');
     const revealObserver = new IntersectionObserver((entries) => {
-        let delayCount = 0;
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const el = entry.target;
-                if (!el.style.getPropertyValue('--reveal-delay')) {
-                    el.style.setProperty('--reveal-delay', `${delayCount * 100}ms`);
-                    delayCount++;
-                }
-                el.classList.add('is-visible');
-                revealObserver.unobserve(el);
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
             }
         });
     }, {
@@ -58,14 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         rootMargin: "0px 0px -50px 0px"
     });
 
-    revealItems.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-            el.classList.add('is-visible');
-        } else {
-            revealObserver.observe(el);
-        }
-    });
+    revealItems.forEach(el => revealObserver.observe(el));
 
     const showcaseCards = document.querySelectorAll('.showcase-card');
     const showcaseVideos = document.querySelectorAll('.showcase-media video');
