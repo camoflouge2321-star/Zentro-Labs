@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
-    <loc>https://zentro-labs.vercel.app/video-spice-garden.html</loc>
+    <loc>https://zentrolabs.com/video-spice-garden.html</loc>
     <video:video>
       <video:thumbnail_loc>https://res.cloudinary.com/dvjffmzh4/image/upload/q_auto/f_auto/v1775560223/Screenshot_2026-04-07_134859_b7qkxc.png</video:thumbnail_loc>
       <video:title>Spice Garden Project Video</video:title>
@@ -12,7 +12,7 @@
     </video:video>
   </url>
   <url>
-    <loc>https://zentro-labs.vercel.app/video-luca-moretti.html</loc>
+    <loc>https://zentrolabs.com/video-luca-moretti.html</loc>
     <video:video>
       <video:thumbnail_loc>https://res.cloudinary.com/dvjffmzh4/image/upload/q_auto/f_auto/v1775560338/Screenshot_2026-04-07_135739_g2ebln.png</video:thumbnail_loc>
       <video:title>Luca Moretti Project Video</video:title>
