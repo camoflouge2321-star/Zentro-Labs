@@ -1,5 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://zentrolabs.com/sitemap.xml
-Sitemap: https://zentrolabs.com/video-sitemap.xml
+Sitemap: https://zentro-labs.vercel.app/sitemap.xml
+Sitemap: https://zentro-labs.vercel.app/video-sitemap.xml

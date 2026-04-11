@@ -1,6 +1,6 @@
 const CONFIG = {
     brandName: "Zentro Labs",
-    contactEmail: "hello@zentrolabs.com",
+    contactEmail: "",
     whatsappPhone: "",
     whatsappPrefillText: "Hi Zentro Labs, I want to discuss a project.",
     copyrightYear: new Date().getFullYear()
@@ -20,8 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll("[data-brand]").forEach(el => el.textContent = CONFIG.brandName);
     document.querySelectorAll("[data-email-link]").forEach(el => {
-        el.setAttribute("href", `mailto:${CONFIG.contactEmail}`);
-        if (el.textContent.includes("@")) el.textContent = CONFIG.contactEmail;
+        if (CONFIG.contactEmail) {
+            el.setAttribute("href", `mailto:${CONFIG.contactEmail}`);
+            if (el.textContent.includes("@")) el.textContent = CONFIG.contactEmail;
+        } else {
+            el.setAttribute("href", "#contact");
+            if (el.textContent.includes("@")) el.textContent = "Contact form";
+        }
     });
     const heroVideo = document.querySelector('[data-hero-video]');
     if (heroVideo && !shouldReduceMedia) {

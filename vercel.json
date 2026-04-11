@@ -1,61 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "zentro-labs.vercel.app"
-        }
-      ],
-      "destination": "https://zentrolabs.com/$1",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "zentro-labs-irxzinj0z-camoflouge2321-stars-projects.vercel.app"
-        }
-      ],
-      "destination": "https://zentrolabs.com/$1",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "zentro-labs-odbyazfs5-camoflouge2321-stars-projects.vercel.app"
-        }
-      ],
-      "destination": "https://zentrolabs.com/$1",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "zentro-labs-6l5i63zy9-camoflouge2321-stars-projects.vercel.app"
-        }
-      ],
-      "destination": "https://zentrolabs.com/$1",
-      "permanent": true
-    },
-    {
-      "source": "/(.*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.zentrolabs.com"
-        }
-      ],
-      "destination": "https://zentrolabs.com/$1",
-      "permanent": true
-    }
-  ],
   "headers": [
     {
       "source": "/(.*)",
@@ -86,7 +29,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' https://unpkg.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://res.cloudinary.com https://zentrolabs.com; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://formspree.io https://api.formspree.io https://vitals.vercel-insights.com; upgrade-insecure-requests"
+          "value": "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self' https://formspree.io; script-src 'self' 'unsafe-inline' https://unpkg.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://res.cloudinary.com https://zentro-labs.vercel.app; media-src 'self' https://res.cloudinary.com; connect-src 'self' https://formspree.io https://api.formspree.io https://vitals.vercel-insights.com; upgrade-insecure-requests"
         }
       ]
     }
