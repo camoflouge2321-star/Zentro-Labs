@@ -183,9 +183,6 @@ p {
     margin-inline: auto;
 }
 
-/* ═══════════════════════════════════════
-   NAVIGATION / HEADER
-═══════════════════════════════════════ */
 .site-header {
     position: fixed;
     top: 0;
@@ -1873,9 +1870,17 @@ html.video-fallback .hero-video {
     border-radius: 50%;
 }
 
-.browser-dot.red { background: #ff5f56; }
-.browser-dot.yellow { background: #ffbd2e; }
-.browser-dot.green { background: #27c93f; }
+.browser-dot.red {
+    background: #ff5f56;
+}
+
+.browser-dot.yellow {
+    background: #ffbd2e;
+}
+
+.browser-dot.green {
+    background: #27c93f;
+}
 
 .showcase-browser-logo {
     width: 14px;
@@ -1908,7 +1913,8 @@ html.video-fallback .hero-video {
 }
 
 .video-shave-bottom video {
-    margin-bottom: -2px; /* Small layout fix for video alignment */
+    margin-bottom: -2px;
+    /* Small layout fix for video alignment */
 }
 
 /* ═══════════════════════════════════════
@@ -1982,9 +1988,17 @@ html.video-fallback .hero-video {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.concept-dot:nth-child(1) { background: #ff5f56; }
-.concept-dot:nth-child(2) { background: #ffbd2e; }
-.concept-dot:nth-child(3) { background: #27c93f; }
+.concept-dot:nth-child(1) {
+    background: #ff5f56;
+}
+
+.concept-dot:nth-child(2) {
+    background: #ffbd2e;
+}
+
+.concept-dot:nth-child(3) {
+    background: #27c93f;
+}
 
 .concept-browser-name {
     font-size: 0.6rem;
