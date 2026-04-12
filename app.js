@@ -1,6 +1,6 @@
 const CONFIG = {
     brandName: "Zentro Labs",
-    contactEmail: "",
+    contactEmail: "zentrolabs7@gmail.com",
     copyrightYear: new Date().getFullYear()
 };
 
