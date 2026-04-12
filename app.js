@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         heroVideo.muted = true;
         heroVideo.play().catch(() => {
             window.addEventListener('click', () => {
-                heroVideo.play().catch(() => {});
+                heroVideo.play().catch(() => { });
             }, { once: true });
         });
     } else if (heroVideo) {
