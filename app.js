@@ -1,8 +1,6 @@
 const CONFIG = {
     brandName: "Zentro Labs",
-    contactEmail: "",
-    whatsappPhone: "",
-    whatsappPrefillText: "Hi Zentro Labs, I want to discuss a project.",
+    contactEmail: "zentrolabs7@gmail.com",
     copyrightYear: new Date().getFullYear()
 };
 
@@ -11,12 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData = Boolean(navigator.connection && navigator.connection.saveData);
     const shouldReduceMedia = reducedMotion || saveData;
-
-    const normalizedPhone = String(root.dataset.whatsappNumber || CONFIG.whatsappPhone || "").replace(/\D/g, "");
-    const encodedMessage = encodeURIComponent(CONFIG.whatsappPrefillText);
-    const whatsappUrl = normalizedPhone
-        ? `https://wa.me/${normalizedPhone}?text=${encodedMessage}`
-        : `https://api.whatsapp.com/send?text=${encodedMessage}`;
 
     document.querySelectorAll("[data-brand]").forEach(el => el.textContent = CONFIG.brandName);
     document.querySelectorAll("[data-email-link]").forEach(el => {
@@ -163,19 +155,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (other !== detail) other.open = false;
                 });
             }
-        });
-    });
-
-    const whatsappNote = document.querySelector("[data-whatsapp-note]");
-    if (whatsappNote) {
-        whatsappNote.textContent = normalizedPhone
-            ? "Prefer chat? WhatsApp opens directly with your prefilled project message."
-            : "WhatsApp opens with a prefilled message. Add your number in body[data-whatsapp-number] to route chats directly.";
-    }
-
-    document.querySelectorAll("[data-whatsapp-cta]").forEach(btn => {
-        btn.addEventListener("click", () => {
-            window.open(whatsappUrl, "_blank", "noopener,noreferrer");
         });
     });
 
