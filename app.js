@@ -158,6 +158,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+
+    const navLinks = document.querySelectorAll('.site-nav a:not(.btn-nav)');
+    const sections = document.querySelectorAll('section[id], header[id]');
+
+    const scrollSpy = () => {
+        const viewportHeight = window.innerHeight;
+        const scrollPos = window.scrollY + (viewportHeight * 0.33); // Trigger when section is 1/3 down
+
+        let currentId = "";
+        sections.forEach(section => {
+            if (scrollPos >= section.offsetTop) {
+                currentId = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            link.classList.toggle('is-active', href === `#${currentId}`);
+        });
+    };
+
+    window.addEventListener('scroll', scrollSpy, { passive: true });
+    scrollSpy();
+
     const form = document.querySelector("[data-contact-form]");
     const formStatus = document.querySelector("#form-status");
     if (form && formStatus) {
