@@ -1159,43 +1159,7 @@ html.video-fallback .hero-video {
     text-shadow: 0 0 30px rgba(255, 107, 26, 0.45);
 }
 
-/* ═══════════════════════════════════════
-   TESTIMONIAL
-═══════════════════════════════════════ */
-.testimonial-shell {
-    max-width: 920px;
-}
 
-.testimonial-shell blockquote {
-    margin: 0;
-    font-family: "Newsreader", serif;
-    font-size: clamp(1.8rem, 4.6vw, 3.6rem);
-    line-height: 1.1;
-    margin-bottom: var(--space-8);
-    color: var(--ink);
-    position: relative;
-    padding-left: 2rem;
-}
-
-.testimonial-shell blockquote::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.2em;
-    bottom: 0.2em;
-    width: 3px;
-    background: linear-gradient(180deg, var(--orange), var(--orange-deep));
-    box-shadow: 0 0 16px var(--orange-glow);
-    border-radius: 4px;
-}
-
-.testimonial-credit {
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 0.68rem;
-    color: var(--orange);
-    text-shadow: 0 0 10px var(--orange-glow);
-}
 
 /* ═══════════════════════════════════════
    FAQ
@@ -2268,7 +2232,6 @@ html.video-fallback .hero-video {
 }
 
 /* Scope-locked accessibility polish: contrast + CTA visibility + mobile hierarchy */
-.testimonial-shell blockquote,
 .process-card p,
 .capability-card p,
 .work-copy,
